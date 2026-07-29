@@ -1,0 +1,53 @@
+# REST Client requests (VS Code "REST Client" extension, or JetBrains HTTP client)
+@baseUrl = http://localhost:5000
+@accessToken = paste_access_token_here
+
+### Health check
+GET {{baseUrl}}/health
+
+### Register
+POST {{baseUrl}}/api/auth/register
+Content-Type: application/json
+
+{
+  "name": "Aniket",
+  "email": "aniket@example.com",
+  "password": "Hackathon2026"
+}
+
+### Login
+POST {{baseUrl}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "aniket@example.com",
+  "password": "Hackathon2026"
+}
+
+### Current user
+GET {{baseUrl}}/api/auth/me
+Authorization: Bearer {{accessToken}}
+
+### Refresh access token (uses the httpOnly cookie)
+POST {{baseUrl}}/api/auth/refresh
+
+### Protected example route
+GET {{baseUrl}}/api/protected
+Authorization: Bearer {{accessToken}}
+
+### Change password
+PATCH {{baseUrl}}/api/auth/password
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "currentPassword": "Hackathon2026",
+  "newPassword": "Hackathon2027"
+}
+
+### Logout
+POST {{baseUrl}}/api/auth/logout
+
+### Logout of every device
+POST {{baseUrl}}/api/auth/logout-all
+Authorization: Bearer {{accessToken}}
