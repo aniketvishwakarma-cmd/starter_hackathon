@@ -29,6 +29,30 @@ export function errorHandler(err, _req, res, _next) {
     message = `Invalid ${err.path}`;
   }
 
+  /* ─── POSTGRES: Sequelize uses different error names ──────────────────────
+     Replace the three Mongoose blocks above with these three.
+
+  // UNIQUE constraint violated (e.g. email already registered) — Mongo's 11000 equivalent
+  if (err.name === 'SequelizeUniqueConstraintError') {
+    statusCode = 409;
+    details = err.errors.map((e) => ({ field: e.path, message: `${e.path} already in use` }));
+    message = 'Already in use';
+  }
+
+  // Model validation failed (allowNull, isEmail, len, and so on)
+  if (err.name === 'SequelizeValidationError') {
+    statusCode = 400;
+    details = err.errors.map((e) => ({ field: e.path, message: e.message }));
+    message = 'Validation failed';
+  }
+
+  // Malformed UUID or type mismatch — Mongo's CastError equivalent
+  if (err.name === 'SequelizeDatabaseError' || err.name === 'SequelizeForeignKeyConstraintError') {
+    statusCode = 400;
+    message = 'Invalid request data';
+  }
+  ─────────────────────────────────────────────────────────────────────────── */
+
   if (statusCode >= 500) console.error(err);
 
   res.status(statusCode).json({

@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const required = ['MONGO_URI', 'JWT_ACCESS_SECRET', 'JWT_REFRESH_SECRET'];
+// POSTGRES: const required = ['DATABASE_URL', 'JWT_ACCESS_SECRET', 'JWT_REFRESH_SECRET'];
 const missing = required.filter((key) => !process.env[key]);
 
 if (missing.length) {
@@ -16,6 +17,7 @@ export const env = {
   nodeEnv: process.env.NODE_ENV || 'development',
   isProd: process.env.NODE_ENV === 'production',
   mongoUri: process.env.MONGO_URI,
+  // POSTGRES: databaseUrl: process.env.DATABASE_URL,
   accessSecret: process.env.JWT_ACCESS_SECRET,
   refreshSecret: process.env.JWT_REFRESH_SECRET,
   accessTtl: process.env.ACCESS_TOKEN_TTL || '15m',

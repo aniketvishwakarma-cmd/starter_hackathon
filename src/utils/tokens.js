@@ -3,7 +3,10 @@ import jwt from 'jsonwebtoken';
 import { env } from '../config/env.js';
 
 export function signAccessToken(user) {
-  return jwt.sign({ sub: user.id, role: user.role }, env.accessSecret, {
+  // jti makes every token unique. Without it, two tokens signed within the same
+  // second are byte-identical strings, because JWT iat/exp are in whole seconds.
+  // It is also the key a Redis denylist would use if instant revocation is added later.
+  return jwt.sign({ sub: user.id, role: user.role, jti: crypto.randomUUID() }, env.accessSecret, {
     expiresIn: env.accessTtl,
   });
 }

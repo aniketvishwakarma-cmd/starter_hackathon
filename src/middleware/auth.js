@@ -20,6 +20,7 @@ export const requireAuth = asyncHandler(async (req, _res, next) => {
   }
 
   const user = await User.findById(payload.sub);
+  // POSTGRES: const user = await User.findByPk(payload.sub);
   if (!user) throw ApiError.unauthorized('User no longer exists');
 
   req.user = user;
